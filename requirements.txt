@@ -1,0 +1,11 @@
+attrs
+cattrs
+certifi
+charset-normalizer
+idna
+platformdirs
+requests
+requests-cache
+typing_extensions
+url-normalize
+urllib3
