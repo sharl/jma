@@ -20,5 +20,7 @@ session = CachedSession(
     use_cache_dir=True,
     stale_if_error=True,
 )
+# timeout (connect, read)
+session.timeout = (5, 10)
 
 from jma import amedas  # noqa: E402, F401
