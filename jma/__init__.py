@@ -8,7 +8,7 @@ _cache_path = Path('~/.cache/amedas').expanduser()
 # expires
 _urls_expire_after = {
     '*/amedas/const/*': 86400,
-    '*/amedas/data/latest.json': 300,
+    '*/amedas/data/*': 300,
     '*': DO_NOT_CACHE,
 }
 
@@ -22,5 +22,3 @@ session = CachedSession(
 )
 # timeout (connect, read)
 session.timeout = (5, 10)
-
-from jma import amedas  # noqa: E402, F401
