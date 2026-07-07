@@ -8,6 +8,7 @@ _cache_path = Path('~/.cache/amedas').expanduser()
 # expires
 _urls_expire_after = {
     '*/amedas/const/*': 86400,
+    '*/amedas/data/latest_time.txt': DO_NOT_CACHE,
     '*/amedas/data/*': 300,
     '*': DO_NOT_CACHE,
 }
