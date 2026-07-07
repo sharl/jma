@@ -52,6 +52,7 @@ def get_amedas_table_maps() -> tuple[dict[str, str], dict[str, list[str]]]:
         # ネットワークエラー時もプロセスを落とさず生存権（透過性）を確保
         return code_to_display, name_to_codes
 
+    codes = {}
     raw_data = []
     dup_counts: dict[str, int] = {}
 
@@ -79,14 +80,22 @@ def get_amedas_table_maps() -> tuple[dict[str, str], dict[str, list[str]]]:
         if not st_code or not point:
             continue
 
-        raw_data.append((pref, st_code, point, airport))
-        dup_counts[point] = dup_counts.get(point, 0) + 1
+        # CSV に複数同一地点コードが登録されている場合があるので多重登録をガード
+        # 風速・日照が分離して複数行になっている場合がある(八戸など)
+        if st_code not in codes:
+            codes[st_code] = 0
+            raw_data.append((pref, st_code, point, airport))
+            dup_counts[point] = dup_counts.get(point, 0) + 1
 
     # 3. 2週目のスキャン：表記揺れ・空港名・名寄せの反映
     for pref, st_code, point, airport in raw_data:
         # 金山問題の救済：重複がある場合は「金山(上川)」のように地方名を添える
+        # ただし東京都の場合は(東京)をつけない
         if dup_counts.get(point, 0) > 1:
-            display_name = f"{point}({pref})"
+            if pref != '東京':
+                display_name = f'{point}({pref})'
+            else:
+                display_name = point
         else:
             display_name = point
 
