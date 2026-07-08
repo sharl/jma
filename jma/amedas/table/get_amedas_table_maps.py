@@ -90,12 +90,8 @@ def get_amedas_table_maps() -> tuple[dict[str, str], dict[str, list[str]]]:
     # 3. 2週目のスキャン：表記揺れ・空港名・名寄せの反映
     for pref, st_code, point, airport in raw_data:
         # 金山問題の救済：重複がある場合は「金山(上川)」のように地方名を添える
-        # ただし東京都の場合は(東京)をつけない
         if dup_counts.get(point, 0) > 1:
-            if pref != '東京':
-                display_name = f'{point}({pref})'
-            else:
-                display_name = point
+            display_name = f'{point}({pref})'
         else:
             display_name = point
 
