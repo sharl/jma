@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
-import datetime
-
-
-def get_latest_time() -> tuple[str, str, str]:
+def get_latest_time_yyyymmddHHMM() -> tuple[str, str, str]:
+    import datetime
     import jma
 
     # get latest time
@@ -12,6 +10,13 @@ def get_latest_time() -> tuple[str, str, str]:
         dt = datetime.datetime.strptime(latest_time, '%Y-%m-%dT%H:%M:%S%z')
         yyyymmdd = dt.strftime('%Y%m%d')
         HH = dt.strftime('%H')
-        hh = f'{int(HH) // 3 * 3:02d}'
+        MM = dt.strftime('%M')
 
-        return yyyymmdd, HH, hh
+        return yyyymmdd, HH, MM
+
+
+def get_latest_time() -> tuple[str, str, str]:
+    yyyymmdd, HH, _ = get_latest_time_yyyymmddHHMM()
+    hh = f'{int(HH) // 3 * 3:02d}'
+
+    return yyyymmdd, HH, hh
