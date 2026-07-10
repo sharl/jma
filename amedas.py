@@ -122,20 +122,26 @@ for name in AMEDAS:
             points[loc] = code
 
 
-def fetch_data_worker(loc, code):
+if True:
+    def fetch_data_worker(loc, code):
+        lines = {}
+        fetch_data(loc, code, lines)
+        return loc, lines.get(loc, None)
+
+    with ThreadPoolExecutor(max_workers=len(points)) as executor:
+        results = executor.map(
+            lambda loc: fetch_data_worker(loc, points[loc]),
+            points
+        )
+
+    for _, line in results:
+        if line:
+            print(line)
+else:
     lines = {}
-    fetch_data(loc, code, lines)
-    return loc, lines.get(loc, None)
+    for loc in points:
+        fetch_data(loc, points[loc], lines)
+    print('\n'.join([lines[loc] for loc in lines]))
 
-
-with ThreadPoolExecutor(max_workers=len(points)) as executor:
-    results = executor.map(
-        lambda loc: fetch_data_worker(loc, points[loc]),
-        points
-    )
-
-for _, line in results:
-    if line:
-        print(line)
 if errs:
     print(f"{' '.join(errs)} が見つかりませんでした。https://www.jma.go.jp/bosai/map.html#contents=amedas から観測地点を指定してください。")
