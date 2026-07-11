@@ -17,6 +17,8 @@ _urls_expire_after = {
     '*/amedas/data/latest_time.txt': 3,
     '*/amedas/data/*': 300,
     '*/forecast/data/forecast/*': _SEC_3_HOURS,
+    '*/forecast/const/*': _SEC_1_DAY,
+    '*/common/const/*': _SEC_1_DAY,
     '*': DO_NOT_CACHE,
 }
 
